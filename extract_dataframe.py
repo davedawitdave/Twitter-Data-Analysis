@@ -74,9 +74,14 @@ class TweetDfExtractor:
         return created_at
 
     def find_source(self)->list:
-        source = 
-
-        return source
+        source = []      
+                 """
+        a function that extracts the source variable and returns a list of html hyperlink 
+        reference strings.
+        """
+        for items in self.tweets_list:
+            source.append(items['source'])
+        return source 
 
     def find_screen_name(self)->list:
         screen_name = 
