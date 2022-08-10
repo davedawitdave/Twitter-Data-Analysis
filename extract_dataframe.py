@@ -36,37 +36,83 @@ class TweetDfExtractor:
         
         self.tweets_list = tweets_list
 
+  
     # an example function
     def find_statuses_count(self)->list:
-        statuses_count 
+        statuses_count= []  # count the statuses of
+        for items in self.tweets_list:
+            statuses_count.append(items['user']['status_count'])        #unfinished line
+        return statuses_count
+
         
     def find_full_text(self)->list:
-        text = 
-       
-    
+        text = []      #hold the clean text
+        u_text=[]      #original text 
+        for items in self_tweets_list:
+            u_text.append(items['text'])           
+            text.append(re.sub("^.*:", "", items['text']))        #unfinished line of code
+        return text, u_text
+  
+
     def find_sentiments(self, text)->list:
-        
+        polarity = [] # contains the polarity values from the sentiment analysis
+        Self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
+                
+        """
+        a function that extracts a polarity and a subjectivity from the list of tweet strings.
+        returns a two lists of polarity and subjectivity scores.
+        """
+        for items in text:
+            self.subjectivity.append(TextBlob(items).sentiment.subjectivity)
+            polarity.append(TextBlob(items).sentiment.polarity)
+
         return polarity, self.subjectivity
 
     def find_created_time(self)->list:
-       
+        # a function that extracts when from created_at  variable and returns a list of date strings.
+   
+        created_at = []   # aholds a list of all created time and date
+        for items in self.tweets_list:
+            created_at.append(items.get('created_at', None))
+        
         return created_at
 
     def find_source(self)->list:
-        source = 
-
-        return source
+        source = []      
+        """
+        a function that extracts the source variable and returns a list of html hyperlink 
+        reference strings.
+        """
+        for items in self.tweets_list:
+            source.append(items['source'])
+        return source 
 
     def find_screen_name(self)->list:
-        screen_name = 
+        # a function that extracts screen name from users.
+        screen_name =[]   # list of screen names.
+
+        for items in self.tweets_list:
+            screen_name.append(items['user']['screen_name'])
+        return screen_name
 
     def find_followers_count(self)->list:
-        followers_count = 
+        # a function for counting the number of followers for each user
+        followers_count = []
+
+        for items in self.tweets_list:
+            followers_count.append(items['user']['followers_count'])
+        return followers_count
 
     def find_friends_count(self)->list:
-        friends_count = 
+        # a function for counting the number of friends users have
+        friends_count = []
+        for items in self.tweets_list:
+            friends_count.append(items['user'][friends_count])
+        return friends_count
 
     def is_sensitive(self)->list:
+        # a funciton returns the sensitivity of users tweet
+        is_sensitive=[]
         try:
             is_sensitive = [x['possibly_sensitive'] for x in self.tweets_list]
         except KeyError:
@@ -75,31 +121,57 @@ class TweetDfExtractor:
         return is_sensitive
 
     def find_favourite_count(self)->list:
+        # a function that extracts the number of favourties.
+
+        favourite_count = [] # listing the number of favourites.
+        for items in self.tweets_list:
+            favourite_count.append(items['user']['favourites_count'])
         
+        return favourite_count
     
     def find_retweet_count(self)->list:
-        retweet_count = 
+        #function return the number of retweets
+        retweet_count = []
+        for items in self.tweets_list:
+            retweet_count.append(items['user']['retweet_count'])
+        return retweet_count
 
     def find_hashtags(self)->list:
-        hashtags =
+        # a function that extracts the hashtags used in the tweet.
+   
+        hashtags =[]
+        for items in self.tweets_list:
+            hashtags.append(items.get('entities', {}).get('hashtags', None))        
+        
+        return hashtags
 
     def find_mentions(self)->list:
-        mentions = 
+        # a function for finding mentions 
+        mentions = []
+        for items in self.tweets_list:
+            mentions.append(items('entities', {}).get('mentions', None))
 
+        return mentions
 
     def find_location(self)->list:
+        location=[]
         try:
             location = self.tweets_list['user']['location']
         except TypeError:
             location = ''
         
         return location
-
+    def find_lang(self)->list:
+        #additional function to determine which language is used by the users
+        lang=[]
+        for items in self_tweets_list:
+            lang.append(items['user'][lang])
+        return lang
     
         
-        
+
     def get_tweet_df(self, save=False)->pd.DataFrame:
-        """required column to be generated you should be creative and add more features"""
+        """required column to be generated you should be creative and add more features"""     #OK 
         
         columns = ['created_at', 'source', 'original_text','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
             'original_author', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place']
@@ -132,7 +204,7 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
     'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("../covid19.json")
+    _, tweet_list = read_json("../data/global_twitter_data.json")
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df() 
 
