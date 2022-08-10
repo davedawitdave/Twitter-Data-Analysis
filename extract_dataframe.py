@@ -1,9 +1,7 @@
 import json
+from typing_extensions import Self
 import pandas as pd
 from textblob import TextBlob
-import re
-import os
-
 
 
 def read_json(json_file: str)->list:
@@ -168,6 +166,8 @@ class TweetDfExtractor:
             lang.append(items['user'][lang])
         return lang
     
+        
+
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""     #OK 
         
