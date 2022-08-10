@@ -38,7 +38,7 @@ class TweetDfExtractor:
     def find_statuses_count(self)->list:
         statuses_count= []  # count the statuses of
         for items in self.tweets_list:
-            statuses_count.append(items[]['status_count'])        #unfinished line
+            statuses_count.append(items['user']['status_count'])        #unfinished line
         return statuses_count
 
         
@@ -84,8 +84,13 @@ class TweetDfExtractor:
         return source 
 
     def find_screen_name(self)->list:
-        screen_name = 
+        # a function that extracts screen name.
+        screen_name =[]   # list of screen names.
 
+        for items in self.tweets_list:
+            screen_name.append(items['user']['screen_name'])
+        
+        return screen_name
     def find_followers_count(self)->list:
         followers_count = 
 
