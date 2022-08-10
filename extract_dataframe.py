@@ -42,7 +42,7 @@ class TweetDfExtractor:
         return statuses_count
 
         
-    def find_full_text(self)->list:-
+    def find_full_text(self)->list:
         text = []      #hold the clean text
         u_text=[]      #original text 
         for items in self_tweets_list:
