@@ -52,12 +52,13 @@ class TweetDfExtractor:
   
 
     def find_sentiments(self, text)->list:
+                polarity = [] # contains the polarity values from the sentiment analysis
+        self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
+                
                 """
         a function that extracts a polarity and a subjectivity from the list of tweet strings.
         returns a two lists of polarity and subjectivity scores.
         """
-        polarity = [] # contains the polarity values from the sentiment analysis
-        self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
         for items in text:
             self.subjectivity.append(TextBlob(items).sentiment.subjectivity)
             polarity.append(TextBlob(items).sentiment.polarity)
