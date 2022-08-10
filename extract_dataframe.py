@@ -1,4 +1,5 @@
 import json
+from typing_extensions import Self
 import pandas as pd
 from textblob import TextBlob
 
@@ -52,10 +53,10 @@ class TweetDfExtractor:
   
 
     def find_sentiments(self, text)->list:
-                polarity = [] # contains the polarity values from the sentiment analysis
-        self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
+        polarity = [] # contains the polarity values from the sentiment analysis
+        Self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
                 
-                """
+        """
         a function that extracts a polarity and a subjectivity from the list of tweet strings.
         returns a two lists of polarity and subjectivity scores.
         """
@@ -76,7 +77,7 @@ class TweetDfExtractor:
 
     def find_source(self)->list:
         source = []      
-                 """
+        """
         a function that extracts the source variable and returns a list of html hyperlink 
         reference strings.
         """
@@ -158,10 +159,13 @@ class TweetDfExtractor:
             location = ''
         
         return location
-
+    def find_lang(self)->list:
+        #additional function to determine which language is used by the users
+        lang=[]
+        for items in self_tweets_list:
+            lang.append(items['user'][lang])
+        return lang
     
-        
-        
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""     #OK 
         
