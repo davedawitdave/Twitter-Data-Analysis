@@ -38,13 +38,18 @@ class TweetDfExtractor:
     def find_statuses_count(self)->list:
         statuses_count= []  # count the statuses of
         for item in self.tweets_list:
-            statuses_count.append(items[]['status_count'])
+            statuses_count.append(items[]['status_count'])        #unfinished line
         return statuses_count
 
         
-    def find_full_text(self)->list:
-        text = 
-       
+    def find_full_text(self)->list:-
+        text = []      #hold the clean text
+        u_text=[]      #original text 
+        for items in self_tweets_list:
+            u_text.append(items['text'])           
+            text.append(re.sub("^.*:", "", items['text']))        #unfinished code
+        return text, u_text
+  
     
     def find_sentiments(self, text)->list:
         
