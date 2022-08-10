@@ -65,7 +65,12 @@ class TweetDfExtractor:
         return polarity, self.subjectivity
 
     def find_created_time(self)->list:
-       
+        # a function that extracts when from created_at  variable and returns a list of date strings.
+   
+        created_at = []   # aholds a list of all created time and date
+        for items in self.tweets_list:
+            created_at.append(items.get('created_at', None))
+        
         return created_at
 
     def find_source(self)->list:
