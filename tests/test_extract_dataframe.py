@@ -42,12 +42,12 @@ class TestTweetDfExtractor(unittest.TestCase):
 		A class for unit-testing function in the fix_clean_tweets_dataframe.py file
 
 		Args:
-        -----
 			unittest.TestCase this allows the new class to inherit
 			from the unittest module
 	 doing some changes here"""
+    
      def setUp(self) -> pd.DataFrame:
-        self.df = TweetDfExtractor(tweet_list[:5])
+            self.df = TweetDfExtractor(tweet_list[:5])
         # tweet_df = self.df.get_tweet_df()         
 
     def test_find_statuses_count(self):
