@@ -1,7 +1,9 @@
 import json
-from typing_extensions import Self
 import pandas as pd
 from textblob import TextBlob
+import re
+import os
+
 
 
 def read_json(json_file: str)->list:
