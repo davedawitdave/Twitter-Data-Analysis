@@ -84,7 +84,7 @@ class TweetDfExtractor:
         return source 
 
     def find_screen_name(self)->list:
-        # a function that extracts screen name.
+        # a function that extracts screen name from users.
         screen_name =[]   # list of screen names.
 
         for items in self.tweets_list:
