@@ -19,12 +19,11 @@ class Clean_Tweets:
         
         return df
     def drop_duplicate(self, df:pd.DataFrame)->pd.DataFrame:
- 
-        #drop duplicate rows from selected columns where duplicates are not expected.
 
-        df.drop_duplicates(['screen_name','original_text','created_at'],keep="first")
+        # drop duplicate rows from selected columns where duplicates are not expected.
+        df.drop_duplicates(['original_author','original_text','created_at'],keep="first")
+        print('Duplicate rows successfully removed')
         return df
-
     def convert_to_datetime(self, df:pd.DataFrame)->pd.DataFrame:
         """
         convert column to datetime
@@ -40,7 +39,6 @@ class Clean_Tweets:
        
         df['polarity'] = pd.to_numeric(df['polarity'])
         df['favorite_count'] = pd.to_numeric(df['favorite_count'])
-        df['screen_count'] = pd.to_numeric(df['screen_count'])
         df['subjectivity'] = pd.to_numeric(df['subjectivity'])
         df['retweet_count'] = pd.to_numeric(df['retweet_count'])
         df['friends_count'] = pd.to_numeric(df['friends_count'])

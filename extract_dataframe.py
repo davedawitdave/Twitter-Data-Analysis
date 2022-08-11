@@ -48,25 +48,22 @@ class TweetDfExtractor:
     def find_full_text(self)->list:
         text = []      #hold the clean text
         u_text=[]      #original text 
-        for items in self_tweets_list:
-            u_text.append(items['text'])           
-            text.append(re.sub("^.*:", "", items['text']))        #unfinished line of code
+        for items in self.tweets_list:
+            u_text.append(items['full_text'])           
+            text.append(re.sub("^RT.*:", "", items['full_text']))        #unfinished line of code
         return text, u_text
   
 
     def find_sentiments(self, text)->list:
         polarity = [] # contains the polarity values from the sentiment analysis
-        Self.subjectivity = [] # contains the subjectivity values from the sentiment analysis
-                
-        """
-        a function that extracts a polarity and a subjectivity from the list of tweet strings.
-        returns a two lists of polarity and subjectivity scores.
-        """
-        for items in text:
+        self.subjectivity = [] # contains the subjectivity values from the sentiment analysis      
+        for items in text[0]:
+            print(type(items))
             self.subjectivity.append(TextBlob(items).sentiment.subjectivity)
             polarity.append(TextBlob(items).sentiment.polarity)
 
         return polarity, self.subjectivity
+        
 
     def find_created_time(self)->list:
         # a function that extracts when from created_at  variable and returns a list of date strings.
@@ -107,18 +104,15 @@ class TweetDfExtractor:
         # a function for counting the number of friends users have
         friends_count = []
         for items in self.tweets_list:
-            friends_count.append(items['user'][friends_count])
+            friends_count.append(items['user']['friends_count'])
         return friends_count
 
     def is_sensitive(self)->list:
         # a funciton returns the sensitivity of users tweet
-        is_sensitive=[]
-        try:
-            is_sensitive = [x['possibly_sensitive'] for x in self.tweets_list]
-        except KeyError:
-            is_sensitive = None
-
-        return is_sensitive
+        sensitivity = [] # list of sensitivity status.
+        for items in self.tweets_list:
+            sensitivity.append(items.get('possibly_sensitive', None))
+        return sensitivity
 
     def find_favourite_count(self)->list:
         # a function that extracts the number of favourties.
@@ -133,7 +127,7 @@ class TweetDfExtractor:
         #function return the number of retweets
         retweet_count = []
         for items in self.tweets_list:
-            retweet_count.append(items['user']['retweet_count'])
+            retweet_count.append(items.get('retweet_count', None))
         return retweet_count
 
     def find_hashtags(self)->list:
@@ -149,25 +143,21 @@ class TweetDfExtractor:
         # a function for finding mentions 
         mentions = []
         for items in self.tweets_list:
-            mentions.append(items('entities', {}).get('mentions', None))
+            print(type(items))
+            mentions.append(items.get('entities', {}).get('user_mentions', None))
 
         return mentions
 
     def find_location(self)->list:
-        location=[]
-        try:
-            location = self.tweets_list['user']['location']
-        except TypeError:
-            location = ''
-        
+        location = [x.get('user', {}).get('location', None) for x in self.tweets_list]
         return location
+
     def find_lang(self)->list:
         #additional function to determine which language is used by the users
         lang=[]
-        for items in self_tweets_list:
-            lang.append(items['user'][lang])
+        for items in self.tweets_list:
+            lang.append(items.get('lang', None))
         return lang
-    
         
 
     def get_tweet_df(self, save=False)->pd.DataFrame:
