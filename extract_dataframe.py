@@ -57,7 +57,6 @@ class TweetDfExtractor:
         polarity = [] # contains the polarity values from the sentiment analysis
         self.subjectivity = [] # contains the subjectivity values from the sentiment analysis      
         for items in text[0]:
-            print(type(items))
             self.subjectivity.append(TextBlob(items).sentiment.subjectivity)
             polarity.append(TextBlob(items).sentiment.polarity)
 
@@ -142,7 +141,6 @@ class TweetDfExtractor:
         # a function for finding mentions 
         mentions = []
         for items in self.tweets_list:
-            print(type(items))
             mentions.append(items.get('entities', {}).get('user_mentions', None))
 
         return mentions
