@@ -157,11 +157,11 @@ class TweetDfExtractor:
         return lang
     def find_author_name(self)->list:
 
-        orignal_author= [] # list of original authors' screen names.
+        author_name= [] # list of original authors' screen names.
         for items in self.tweets_list:
-            orignal_author.append(items.get('retweeted_status', None).get('user', None).get('screen_name', None))
+            author_name.append(items.get('retweeted_status', None).get('user', None).get('screen_name', None))
         
-        return orignal_author   
+        return author_name   
 
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""     #OK 
@@ -178,14 +178,14 @@ class TweetDfExtractor:
         fav_count = self.find_favourite_count()
         retweet_count = self.find_retweet_count()
         screen_name = self.find_screen_name()
-        orginal_author=self.find_orginal_author()
+        orginal_author=self.find_author_name()
         follower_count = self.find_followers_count()
         friends_count = self.find_friends_count()
         sensitivity = self.is_sensitive()
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        #place_coord_boundaries-=self.find_place_coord_boundaries()
+        #find_statuses_count place_coord_boundaries-=self.find_place_coord_boundaries()
 
         data = zip(created_at, source, text, u_text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, orginal_author, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
