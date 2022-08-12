@@ -2,7 +2,6 @@ import json
 import pandas as pd
 from textblob import TextBlob
 import re
-import os
 
 
 def read_json(json_file: str)->list:
@@ -11,7 +10,7 @@ def read_json(json_file: str)->list:
     Args:
     -----
     json_file: str - path of a json file
-    
+    it will help out 
     Returns
     -------
     length of the json file and a list of json
@@ -41,7 +40,7 @@ class TweetDfExtractor:
     def find_statuses_count(self)->list:
         statuses_count= []  # count the statuses of
         for items in self.tweets_list:
-            statuses_count.append(items['user']['status_count'])        #unfinished line
+            statuses_count.append(items['user']['status_count'])        
         return statuses_count
 
         
@@ -50,7 +49,7 @@ class TweetDfExtractor:
         u_text=[]      #original text 
         for items in self.tweets_list:
             u_text.append(items['full_text'])           
-            text.append(re.sub("^RT.*:", "", items['full_text']))        #unfinished line of code
+            text.append(re.sub("^RT.*:", "", items['full_text']))        
         return text, u_text
   
 
@@ -194,7 +193,7 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
     'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("../data/global_twitter_data.json")
+    _, tweet_list = read_json("../data/africa_twitter_data.json")
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df() 
 
