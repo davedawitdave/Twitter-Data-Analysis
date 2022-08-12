@@ -120,7 +120,9 @@ class TweetDfExtractor:
             favourite_count.append(items['user']['favourites_count'])
         
         return favourite_count
-    
+     
+    #find_statuses_count place_coord_boundaries-=self.find_place_coord_boundaries()
+
     def find_retweet_count(self)->list:
         #function return the number of retweets
         retweet_count = []
@@ -159,20 +161,19 @@ class TweetDfExtractor:
 
         author_name= [] # list of original authors' screen names.
         for items in self.tweets_list:
-            author_name.append(items.get('retweeted_status', None).get('user', None).get('screen_name', None))
+            author_name.append(items.get('user', None).get('screen_name', None))
         
         return author_name   
 
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""     #OK 
         
-        columns = ['created_at', 'source', 'original_text','clean_text','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
+        columns = ['created_at', 'source', 'original_text','clean_text','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 'screen_name'
             'original_author', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place']
         
         created_at = self.find_created_time()
         source = self.find_source()
-        text = self.find_full_text()     
-        u_text = self.find_full_text()
+        text, u_text = self.find_full_text()     
         polarity, subjectivity = self.find_sentiments(text)
         lang = self.find_lang()
         fav_count = self.find_favourite_count()
@@ -185,7 +186,6 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        #find_statuses_count place_coord_boundaries-=self.find_place_coord_boundaries()
 
         data = zip(created_at, source, text, u_text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, orginal_author, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
